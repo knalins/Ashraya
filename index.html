@@ -142,6 +142,66 @@
             color: #666;
         }
 
+        /* Resource Categories */
+        .resource-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .resource-category {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .resource-category h3 {
+            color: #8b7355;
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 0.5rem;
+        }
+
+        .resource-item {
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            border-left: 4px solid #d4a574;
+            background: #fafafa;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .resource-item h4 {
+            color: #5a5a5a;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .resource-item p {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .resource-link {
+            color: #8b7355;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .resource-link:hover {
+            text-decoration: underline;
+        }
+
+        .resource-meta {
+            font-size: 0.8rem;
+            color: #888;
+            margin-top: 0.5rem;
+        }
+
         /* Buttons */
         .btn {
             display: inline-block;
@@ -264,6 +324,10 @@
             .cards {
                 grid-template-columns: 1fr;
             }
+
+            .resource-categories {
+                grid-template-columns: 1fr;
+            }
         }
 
         /* Success/Error Messages */
@@ -295,6 +359,7 @@
                 <li><a href="#" onclick="showPage('about')">About</a></li>
                 <li><a href="#" onclick="showPage('connect')">Connect</a></li>
                 <li><a href="#" onclick="showPage('therapists')">Therapists</a></li>
+                <li><a href="#" onclick="showPage('resource-hub')">Resources</a></li>
                 <li><a href="#" onclick="showPage('stories')">Stories</a></li>
                 <li><a href="#" onclick="showPage('register')">Register</a></li>
             </ul>
@@ -351,6 +416,150 @@
 
                 <h3>Our Story</h3>
                 <p>Ashraya was born from the recognition that palliative care extends far beyond medical treatment. It encompasses the full spectrum of human experience - the need for connection, understanding, professional guidance, and the opportunity to share one's story. We created this platform to ensure that no one walks this journey alone.</p>
+            </div>
+        </div>
+
+        <!-- RESOURCE HUB PAGE -->
+        <div id="resource-hub" class="page">
+            <div class="hero">
+                <h1>Resource Hub</h1>
+                <p>Curated articles, videos, and guides on palliative care, legal matters, and advance directives to help you navigate this journey with knowledge and confidence.</p>
+            </div>
+
+            <div class="resource-categories">
+                <div class="resource-category">
+                    <h3>Understanding Palliative Care</h3>
+                    
+                    <div class="resource-item">
+                        <h4>What Is Palliative Care?</h4>
+                        <p>A comprehensive guide explaining the difference between palliative care and hospice care, and how palliative care can improve quality of life at any stage of illness.</p>
+                        <a href="#" class="resource-link">Read Full Article</a>
+                        <div class="resource-meta">Source: National Institute on Aging • 15 min read</div>
+                    </div>
+
+                    <div class="resource-item">
+                        <h4>Managing Pain and Symptoms</h4>
+                        <p>Expert advice on communicating with your healthcare team about pain management and symptom control to maintain comfort and dignity.</p>
+                        <a href="#" class="resource-link">Read Full Article</a>
+                        <div class="resource-meta">Source: American Cancer Society • 12 min read</div>
+                    </div>
+
+                    <div class="resource-item">
+                        <h4>Nutrition and Comfort Care</h4>
+                        <p>Practical guidance on maintaining nutrition and hydration when appetite changes, including comfort feeding approaches.</p>
+                        <a href="#" class="resource-link">Read Full Article</a>
+                        <div class="resource-meta">Source: Palliative Care Network • 10 min read</div>
+                    </div>
+                </div>
+
+                <div class="resource-category">
+                    <h3>Legal Matters & Planning</h3>
+                    
+                    <div class="resource-item">
+                        <h4>Understanding Advance Directives</h4>
+                        <p>A step-by-step guide to creating advance directives, including living wills and healthcare power of attorney documents.</p>
+                        <a href="#" class="resource-link">Read Full Guide</a>
+                        <div class="resource-meta">Source: National Hospice Foundation • 20 min read</div>
+                    </div>
+
+                    <div class="resource-item">
+                        <h4>POLST Forms Explained</h4>
+                        <p>Learn about Physician Orders for Life-Sustaining Treatment (POLST) and how they differ from advance directives.</p>
+                        <a href="#" class="resource-link">Read Full Article</a>
+                        <div class="resource-meta">Source: POLST.org • 8 min read</div>
+                    </div>
+
+                    <div class="resource-item">
+                        <h4>Financial Planning for End-of-Life Care</h4>
+                        <p>Understanding insurance coverage, Medicare benefits, and financial assistance programs for palliative and hospice care.</p>
+                        <a href="#" class="resource-link">Read Full Guide</a>
+                        <div class="resource-meta">Source: Medicare.gov • 18 min read</div>
+                    </div>
+
+                    <div class="resource-item">
+                        <h4>Estate Planning Basics</h4>
+                        <p>Essential information about wills, trusts, and ensuring your wishes are legally documented and protected.</p>
+                        <a href="#" class="resource-link">Read Full Article</a>
+                        <div class="resource-meta">Source: American Bar Association • 15 min read</div>
+                    </div>
+                </div>
+
+                <div class="resource-category">
+                    <h3>Emotional & Spiritual Support</h3>
+                    
+                    <div class="resource-item">
+                        <h4>Coping with a Terminal Diagnosis</h4>
+                        <p>Strategies for processing emotions, finding meaning, and maintaining hope after receiving difficult news.</p>
+                        <a href="#" class="resource-link">Read Full Article</a>
+                        <div class="resource-meta">Source: Psychology Today • 14 min read</div>
+                    </div>
+
+                    <div class="resource-item">
+                        <h4>Supporting a Loved One in Palliative Care</h4>
+                        <p>Guidance for family members and friends on how to provide meaningful support while caring for themselves.</p>
+                        <a href="#" class="resource-link">Read Full Guide</a>
+                        <div class="resource-meta">Source: Family Caregiver Alliance • 16 min read</div>
+                    </div>
+
+                    <div class="resource-item">
+                        <h4>Grief and Anticipatory Loss</h4>
+                        <p>Understanding the grieving process that begins before death and strategies for coping with anticipatory grief.</p>
+                        <a href="#" class="resource-link">Read Full Article</a>
+                        <div class="resource-meta">Source: Grief Recovery Institute • 12 min read</div>
+                    </div>
+
+                    <div class="resource-item">
+                        <h4>Finding Spiritual Comfort</h4>
+                        <p>Exploring spirituality, meaning-making, and finding peace regardless of religious background or beliefs.</p>
+                        <a href="#" class="resource-link">Read Full Article</a>
+                        <div class="resource-meta">Source: Chaplaincy Institute • 11 min read</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Video Resources</h3>
+                <p>We've curated a selection of helpful videos covering important topics. These resources provide visual guidance and expert insights to complement our written materials.</p>
+                
+                <div class="resource-item">
+                    <h4>Having the Conversation: Talking About End-of-Life Wishes</h4>
+                    <p>A gentle guide to starting difficult but important conversations with loved ones about care preferences and wishes.</p>
+                    <a href="#" class="resource-link">Watch Video (12 minutes)</a>
+                    <div class="resource-meta">Source: The Conversation Project</div>
+                </div>
+
+                <div class="resource-item">
+                    <h4>Understanding Your Rights as a Patient</h4>
+                    <p>Learn about patient rights, informed consent, and how to advocate for yourself in healthcare settings.</p>
+                    <a href="#" class="resource-link">Watch Video (8 minutes)</a>
+                    <div class="resource-meta">Source: Patient Advocate Foundation</div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3>Downloadable Guides</h3>
+                <p>Practical worksheets and guides you can download and use to organize important information and plan ahead.</p>
+                
+                <div class="resource-item">
+                    <h4>Advance Directive Worksheet</h4>
+                    <p>A comprehensive worksheet to help you think through and document your healthcare preferences and wishes.</p>
+                    <a href="#" class="resource-link">Download PDF</a>
+                    <div class="resource-meta">4 pages • Fillable PDF format</div>
+                </div>
+
+                <div class="resource-item">
+                    <h4>Questions to Ask Your Doctor</h4>
+                    <p>A helpful list of questions to bring to medical appointments to ensure you get the information you need.</p>
+                    <a href="#" class="resource-link">Download PDF</a>
+                    <div class="resource-meta">2 pages • Printable checklist</div>
+                </div>
+
+                <div class="resource-item">
+                    <h4>Emergency Contact Information Template</h4>
+                    <p>Organize important contact information for healthcare providers, family members, and legal representatives.</p>
+                    <a href="#" class="resource-link">Download PDF</a>
+                    <div class="resource-meta">1 page • Fillable template</div>
+                </div>
             </div>
         </div>
 
