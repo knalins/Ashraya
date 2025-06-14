@@ -1,506 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Embrace: Palliative Care Community</title>
-  <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.22.9/babel.min.js"></script>
-  <script src="https://cdn.tailwindcss.com"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comfort & Connection: Palliative Care Support</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div id="root"></div>
-  <script type="text/babel">
-    const { useState, useEffect } = React;
-
-    // Sample data for stories and therapists
-    const sampleStories = [
-      { id: 1, title: "Finding Peace", author: "Jane Doe", content: "My journey with pancreatic cancer has been challenging, but sharing here has brought me comfort..." },
-      { id: 2, title: "Moments of Joy", author: "John Smith", content: "Living with ALS has taught me to cherish every smile and sunrise..." },
-    ];
-
-    const sampleTherapists = [
-      { id: 1, name: "Dr. Emily Carter", specialty: "Pancreatic Cancer", location: "New York, NY" },
-      { id: 2, name: "Dr. Michael Lee", specialty: "ALS", location: "Chicago, IL" },
-    ];
-
-    const sampleMeetings = [
-      { id: 1, condition: "Pancreatic Cancer", date: "June 20, 2025", time: "6:00 PM EST", location: "Virtual" },
-      { id: 2, condition: "ALS", date: "June 22, 2025", time: "7:00 PM EST", location: "Virtual" },
-    ];
-
-    // Navigation Component
-    const Navbar = ({ setPage }) => (
-      <nav className="bg-blue-100 p-4 shadow-md">
-        <div className="container mx-auto flex justify-between items-center">
-          <h1 className="text-2xl font-serif text-gray-800">Embrace</h1>
-          <ul className="flex space-x-4">
-            {['Home', 'About', 'Connect With Others', 'Find a Therapist', 'Register as a Therapist', 'Tell Your Story', 'Stories', 'Register'].map(page => (
-              <li key={page}>
-                <button onClick={() => setPage(page.toLowerCase().replace(/\s+/g, '-'))} className="text-gray-700 hover:text-blue-600 font-sans">
-                  {page}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </nav>
-    );
-
-    // Footer Component
-    const Footer = () => (
-      <footer className="bg-gray-200 p-4 mt-8">
-        <div className="container mx-auto text-center text-gray-600 font-sans">
-          <p>&copy; 2025 Embrace. All rights reserved.</p>
-          <p>Privacy Policy | Terms of Service</p>
-        </div>
-      </footer>
-    );
-
-    // Homepage Component
-    const Home = ({ setPage }) => (
-      <div className="bg-cream-100 min-h-screen">
-        <div className="container mx-auto py-12 px-4 text-center">
-          <h1 className="text-4xl font-serif text-gray-800 mb-6">Welcome to Embrace</h1>
-          <p className="text-lg font-sans text-gray-600 mb-8">
-            How can we improve survival and enhance the quality of life for individuals in palliative care by addressing their physical, emotional, and psychosocial needs, ensuring every person’s final chapter is lived with dignity, comfort, and compassion?
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <h2 className="text-2xl font-serif text-gray-700 mb-4">Connect with Others</h2>
-              <p className="text-gray-600 mb-4 font-sans">Find and connect with others who share your specific diagnosis, so you can build a supportive community.</p>
-              <button onClick={() => setPage('connect-with-others')} className="bg-blue-300 text-white px-4 py-2 rounded hover:bg-blue-400 font-sans">
-                Connect with Others
-              </button>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <h2 className="text-2xl font-serif text-gray-700 mb-4">Connect to a Therapist</h2>
-              <p className="text-gray-600 mb-4 font-sans">Access professional emotional support tailored to your unique needs.</p>
-              <div className="space-y-2">
-                <button onClick={() => setPage('find-a-therapist')} className="bg-blue-300 text-white px-4 py-2 rounded hover:bg-blue-400 font-sans w-full">
-                  Find a Therapist
-                </button>
-                <button onClick={() => setPage('register-as-a-therapist')} className="bg-blue-300 text-white px-4 py-2 rounded hover:bg-blue-400 font-sans w-full">
-                  Register as a Therapist
-                </button>
-              </div>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <h2 className="text-2xl font-serif text-gray-700 mb-4">Tell Your Story</h2>
-              <p className="text-gray-600 mb-4 font-sans">Share your personal journey to inspire and support others.</p>
-              <button onClick={() => setPage('tell-your-story')} className="bg-blue-300 text-white px-4 py-2 rounded hover:bg-blue-400 font-sans">
-                Tell Your Story
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-
-    // About Page Component
-    const About = () => (
-      <div className="bg-cream-100 min-h-screen">
-        <div className="container mx-auto py-12 px-4">
-          <h1 className="text-4xl font-serif text-gray-800 mb-6 text-center">About Embrace</h1>
-          <p className="text-lg font-sans text-gray-600 mb-4">
-            Embrace is a sanctuary for individuals in palliative care and their loved ones, dedicated to fostering dignity, comfort, and compassion. Our mission is to enhance quality of life by addressing physical, emotional, and psychosocial needs through community, professional support, and shared stories.
-          </p>
-          <h2 className="text-2xl font-serif text-gray-700 mb-4">Our Values</h2>
-          <ul className="list-disc list-inside text-gray-600 font-sans mb-4">
-            <li>Compassion: We approach every interaction with empathy and care.</li>
-            <li>Dignity: We honor each person’s unique journey.</li>
-            <li>Community: We believe in the power of connection and support.</li>
-            <li>Holistic Care: We address the whole person—mind, body, and spirit.</li>
-          </ul>
-          <p className="text-lg font-sans text-gray-600">
-            Founded in 2025, Embrace is committed to creating a safe, supportive space where everyone feels heard and valued. Join us in building a community of care and compassion.
-          </p>
-        </div>
-      </div>
-    );
-
-    // Connect With Others Page Component
-    const ConnectWithOthers = () => {
-      const [condition, setCondition] = useState('');
-      const [results, setResults] = useState([]);
-      const [meetings, setMeetings] = useState([]);
-
-      const handleSubmit = (e) => {
-        e.preventDefault();
-        // Simulate fetching users with same condition
-        setResults([{ id: 1, name: "Jane Doe", condition }, { id: 2, name: "John Smith", condition }]);
-        setMeetings(sampleMeetings.filter(m => m.condition.toLowerCase() === condition.toLowerCase()));
-      };
-
-      return (
-        <div className="bg-cream-100 min-h-screen">
-          <div className="container mx-auto py-12 px-4">
-            <h1 className="text-4xl font-serif text-gray-800 mb-6 text-center">Connect with Others</h1>
-            <p className="text-lg font-sans text-gray-600 mb-4 text-center">
-              Build a community with others who share your specific diagnosis.
-            </p>
-            <form onSubmit={handleSubmit} className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md">
-              <label htmlFor="condition" className="block text-gray-700 font-sans mb-2">Enter Your Specific Condition</label>
-              <input
-                type="text"
-                id="condition"
-                value={condition}
-                onChange={(e) => setCondition(e.target.value)}
-                className="w-full p-2 border border-gray-300 rounded mb-4 font-sans"
-                placeholder="e.g., Pancreatic Cancer"
-                required
-              />
-              <button type="submit" className="bg-blue-300 text-white px-4 py-2 rounded hover:bg-blue-400 font-sans w-full">
-                Find Community
-              </button>
-            </form>
-            {results.length > 0 && (
-              <div className="mt-8">
-                <h2 className="text-2xl font-serif text-gray-700 mb-4">People with {condition}</h2>
-                <ul className="space-y-4">
-                  {results.map(person => (
-                    <li key={person.id} className="bg-white p-4 rounded-lg shadow-md font-sans">
-                      {person.name}
-                    </li>
-                  ))}
+    <header>
+        <nav class="navbar">
+            <div class="container">
+                <a href="index.html" class="logo">Comfort & Connection</a>
+                <ul class="nav-links">
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="connect-with-others.html">Connect</a></li>
+                    <li><a href="find-a-therapist.html">Therapists</a></li>
+                    <li><a href="stories.html">Stories</a></li>
+                    <li><a href="register.html" class="btn btn-primary">Join Us</a></li>
                 </ul>
-              </div>
-            )}
-            {meetings.length > 0 && (
-              <div className="mt-8">
-                <h2 className="text-2xl font-serif text-gray-700 mb-4">Upcoming Support Meetings</h2>
-                <ul className="space-y-4">
-                  {meetings.map(meeting => (
-                    <li key={meeting.id} className="bg-white p-4 rounded-lg shadow-md font-sans">
-                      {meeting.date} at {meeting.time} ({meeting.location})
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section class="hero-section">
+            <div class="container">
+                <div class="hero-content">
+                    <h1>Finding Comfort, Connection, and Dignity on Your Journey</h1>
+                    <p>How can we improve survival and enhance the quality of life for individuals in palliative care by addressing their physical, emotional, and psychosocial needs, ensuring every person’s final chapter is lived with dignity, comfort, and compassion?</p>
+                    <a href="register.html" class="btn btn-hero">Begin Your Journey</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="main-sections">
+            <div class="container">
+                <div class="section-card">
+                    <img src="images/connect-icon.png" alt="Connect with Others Icon">
+                    <h2>Connect with Others</h2>
+                    <p>In these tender moments, finding understanding can bring immense comfort. Find and connect with others who share your specific diagnosis, so you can build a supportive community, share experiences, and find strength together.</p>
+                    <a href="connect-with-others.html" class="btn btn-secondary">Connect with Others</a>
+                </div>
+
+                <div class="section-card">
+                    <img src="images/therapist-icon.png" alt="Connect to a Therapist Icon">
+                    <h2>Connect to a Therapist</h2>
+                    <p>Navigating a palliative care journey involves many emotions. Access professional emotional support tailored to your unique needs, providing a safe space to process feelings, find coping strategies, and enhance your well-being.</p>
+                    <div class="button-group">
+                        <a href="find-a-therapist.html" class="btn btn-secondary">Find a Therapist</a>
+                        <a href="register-as-therapist.html" class="btn btn-tertiary">Register as a Therapist</a>
+                    </div>
+                </div>
+
+                <div class="section-card">
+                    <img src="images/story-icon.png" alt="Tell Your Story Icon">
+                    <h2>Tell Your Story</h2>
+                    <p>Your voice matters. Sharing your personal journey can be a powerful act of healing and inspiration, offering hope, wisdom, and comfort to others walking a similar path. Your story can light the way.</p>
+                    <a href="tell-your-story.html" class="btn btn-secondary">Tell Your Story</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-links">
+                <a href="about.html">About Us</a>
+                <a href="contact.html">Contact</a>
+                <a href="privacy-policy.html">Privacy Policy</a>
+                <a href="terms-of-service.html">Terms of Service</a>
+            </div>
+            <p>&copy; 2025 Comfort & Connection. All rights reserved.</p>
         </div>
-      );
-    };
-
-    // Find a Therapist Page Component
-    const FindATherapist = () => {
-      const [disease, setDisease] = useState('');
-      const [location, setLocation] = useState('');
-      const [therapists, setTherapists] = useState([]);
-
-      const handleSubmit = (e) => {
-        e.preventDefault();
-        // Simulate fetching therapists
-        setTherapists(sampleTherapists.filter(t => t.specialty.toLowerCase() === disease.toLowerCase() && t.location.toLowerCase().includes(location.toLowerCase())));
-      };
-
-      return (
-        <div className="bg-cream-100 min-h-screen">
-          <div className="container mx-auto py-12 px-4">
-            <h1 className="text-4xl font-serif text-gray-800 mb-6 text-center">Find a Therapist</h1>
-            <p className="text-lg font-sans text-gray-600 mb-4 text-center">
-              Connect with a professional therapist specializing in your condition and location.
-            </p>
-            <form onSubmit={handleSubmit} className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md">
-              <label htmlFor="disease" className="block text-gray-700 font-sans mb-2">Specific Disease</label>
-              <input
-                type="text"
-                id="disease"
-                value={disease}
-                onChange={(e) => setDisease(e.target.value)}
-                className="w-full p-2 border border-gray-300 rounded mb-4 font-sans"
-                placeholder="e.g., Pancreatic Cancer"
-                required
-              />
-              <label htmlFor="location" className="block text-gray-700 font-sans mb-2">Location</label>
-              <input
-                type="text"
-                id="location"
-                value={location}
-                onChange={(e) => setLocation(e.target.value)}
-                className="w-full p-2 border border-gray-300 rounded mb-4 font-sans"
-                placeholder="e.g., New York, NY"
-                required
-              />
-              <button type="submit" className="bg-blue-300 text-white px-4 py-2 rounded hover:bg-blue-400 font-sans w-full">
-                Find Therapists
-              </button>
-            </form>
-            {therapists.length > 0 && (
-              <div className="mt-8">
-                <h2 className="text-2xl font-serif text-gray-700 mb-4">Therapists</h2>
-                <ul className="space-y-4">
-                  {therapists.map(therapist => (
-                    <li key={therapist.id} className="bg-white p-4 rounded-lg shadow-md font-sans">
-                      {therapist.name} - {therapist.specialty} ({therapist.location})
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </div>
-        </div>
-      );
-    };
-
-    // Register as a Therapist Page Component
-    const RegisterAsTherapist = () => {
-      const [formData, setFormData] = useState({
-        name: '', mobile: '', email: '', credentials: '', proof: null,
-      });
-
-      const handleChange = (e) => {
-        const { name, value, files } = e.target;
-        setFormData({ ...formData, [name]: files ? files[0] : value });
-      };
-
-      const handleSubmit = (e) => {
-        e.preventDefault();
-        alert('Therapist registration submitted!');
-      };
-
-      return (
-        <div className="bg-cream-100 min-h-screen">
-          <div className="container mx-auto py-12 px-4">
-            <h1 className="text-4xl font-serif text-gray-800 mb-6 text-center">Register as a Therapist</h1>
-            <p className="text-lg font-sans text-gray-600 mb-4 text-center">
-              Join our platform to provide compassionate support to those in palliative care.
-            </p>
-            <form onSubmit={handleSubmit} className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md">
-              <label htmlFor="name" className="block text-gray-700 font-sans mb-2">Full Name</label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded mb-4 font-sans"
-                required
-              />
-              <label htmlFor="mobile" className="block text-gray-700 font-sans mb-2">Mobile Number (Private)</label>
-              <input
-                type="tel"
-                id="mobile"
-                name="mobile"
-                value={formData.mobile}
-                onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded mb-4 font-sans"
-                required
-              />
-              <label htmlFor="email" className="block text-gray-700 font-sans mb-2">Email</label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded mb-4 font-sans"
-                required
-              />
-              <label htmlFor="credentials" className="block text-gray-700 font-sans mb-2">Credentials/Qualifications</label>
-              <textarea
-                id="credentials"
-                name="credentials"
-                value={formData.credentials}
-                onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded mb-4 font-sans"
-                rows="4"
-                required
-              ></textarea>
-              <label htmlFor="proof" className="block text-gray-700 font-sans mb-2">Upload Proof of Credentials</label>
-              <input
-                type="file"
-                id="proof"
-                name="proof"
-                onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded mb-4 font-sans"
-                required
-              />
-              <button type="submit" className="bg-blue-300 text-white px-4 py-2 rounded hover:bg-blue-400 font-sans w-full">
-                Submit Registration
-              </button>
-            </form>
-          </div>
-        </div>
-      );
-    };
-
-    // Tell Your Story Page Component
-    const TellYourStory = ({ setPage }) => {
-      const [formData, setFormData] = useState({ title: '', author: '', content: '' });
-
-      const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
-      };
-
-      const handleSubmit = (e) => {
-        e.preventDefault();
-        alert('Story submitted for review!');
-        setPage('stories');
-      };
-
-      return (
-        <div className="bg-cream-100 min-h-screen">
-          <div className="container mx-auto py-12 px-4">
-            <h1 className="text-4xl font-serif text-gray-800 mb-6 text-center">Tell Your Story</h1>
-            <p className="text-lg font-sans text-gray-600 mb-4 text-center">
-              Share your personal journey to inspire and support others in our community.
-            </p>
-            <form onSubmit={handleSubmit} className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md">
-              <label htmlFor="title" className="block text-gray-700 font-sans mb-2">Story Title</label>
-              <input
-                type="text"
-                id="title"
-                name="title"
-                value={formData.title}
-                onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded mb-4 font-sans"
-                required
-              />
-              <label htmlFor="author" className="block text-gray-700 font-sans mb-2">Your Name</label>
-              <input
-                type="text"
-                id="author"
-                name="author"
-                value={formData.author}
-                onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded mb-4 font-sans"
-                required
-              />
-              <label htmlFor="content" className="block text-gray-700 font-sans mb-2">Your Story</label>
-              <textarea
-                id="content"
-                name="content"
-                value={formData.content}
-                onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded mb-4 font-sans"
-                rows="6"
-                required
-              ></textarea>
-              <button type="submit" className="bg-blue-300 text-white px-4 py-2 rounded hover:bg-blue-400 font-sans w-full">
-                Submit Your Story
-              </button>
-            </form>
-          </div>
-        </div>
-      );
-    };
-
-    // Stories Page Component
-    const Stories = () => (
-      <div className="bg-cream-100 min-h-screen">
-        <div className="container mx-auto py-12 px-4">
-          <h1 className="text-4xl font-serif text-gray-800 mb-6 text-center">Community Stories</h1>
-          <p className="text-lg font-sans text-gray-600 mb-4 text-center">
-            Read the heartfelt stories shared by our community members.
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {sampleStories.map(story => (
-              <div key={story.id} className="bg-white p-6 rounded-lg shadow-md">
-                <h2 className="text-2xl font-serif text-gray-700 mb-2">{story.title}</h2>
-                <p className="text-gray-600 font-sans mb-2">By {story.author}</p>
-                <p className="text-gray-600 font-sans">{story.content.substring(0, 100)}...</p>
-                <button className="text-blue-500 hover:underline font-sans mt-2">Read More</button>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    );
-
-    // Registration Page Component
-    const Register = () => {
-      const [formData, setFormData] = useState({ name: '', email: '', password: '' });
-
-      const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
-      };
-
-      const handleSubmit = (e) => {
-        e.preventDefault();
-        alert('Registration successful!');
-      };
-
-      return (
-        <div className="bg-cream-100 min-h-screen">
-          <div className="container mx-auto py-12 px-4">
-            <h1 className="text-4xl font-serif text-gray-800 mb-6 text-center">Create an Account</h1>
-            <p className="text-lg font-sans text-gray-600 mb-4 text-center">
-              Join our community to connect, share, and find support.
-            </p>
-            <form onSubmit={handleSubmit} className="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md">
-              <label htmlFor="name" className="block text-gray-700 font-sans mb-2">Full Name</label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded mb-4 font-sans"
-                required
-              />
-              <label htmlFor="email" className="block text-gray-700 font-sans mb-2">Email</label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded mb-4 font-sans"
-                required
-              />
-              <label htmlFor="password" className="block text-gray-700 font-sans mb-2">Password</label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                className="w-full p-2 border border-gray-300 rounded mb-4 font-sans"
-                required
-              />
-              <button type="submit" className="bg-blue-300 text-white px-4 py-2 rounded hover:bg-blue-400 font-sans w-full">
-                Register
-              </button>
-            </form>
-          </div>
-        </div>
-      );
-    };
-
-    // Main App Component
-    const App = () => {
-      const [page, setPage] = useState('home');
-
-      const renderPage = () => {
-        switch (page) {
-          case 'home': return <Home setPage={setPage} />;
-          case 'about': return <About />;
-          case 'connect-with-others': return <ConnectWithOthers />;
-          case 'find-a-therapist': return <FindATherapist />;
-          case 'register-as-a-therapist': return <RegisterAsTherapist />;
-          case 'tell-your-story': return <TellYourStory setPage={setPage} />;
-          case 'stories': return <Stories />;
-          case 'register': return <Register />;
-          default: return <Home setPage={setPage} />;
-        }
-      };
-
-      return (
-        <div>
-          <Navbar setPage={setPage} />
-          {renderPage()}
-          <Footer />
-        </div>
-      );
-    };
-
-    // Render the App
-    ReactDOM.render(<App />, document.getElementById('root'));
-  </script>
+    </footer>
 </body>
 </html>
