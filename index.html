@@ -1,628 +1,792 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ashraya: Palliative Care Community</title>
-  <script src="https://cdn.jsdelivr.net/npm/react@18.2.0/umd/react.production.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.22.9/babel.min.js"></script>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;700&family=Inter:wght@400;500&display=swap" rel="stylesheet">
-  <style>
-    body { font-family: 'Inter', sans-serif; }
-    h1, h2, h3 { font-family: 'Lora', serif; }
-    .fade-in { animation: fadeIn 0.5s ease-in; }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-    .btn-primary {
-      background-color: #B3CDE6;
-      color: white;
-      transition: all 0.3s ease;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    .btn-primary:hover {
-      background-color: #8AB0D9;
-      transform: translateY(-1px);
-    }
-    .nav-sticky {
-      background: rgba(230, 240, 250, 0.95);
-      backdrop-filter: blur(8px);
-    }
-    .loading-spinner {
-      border: 4px solid #f3f3f3;
-      border-top: 4px solid #B3CDE6;
-      border-radius: 50%;
-      width: 24px;
-      height: 24px;
-      animation: spin 1s linear infinite;
-      margin: auto;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ashraya - Support & Community</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.6;
+            color: #5a5a5a;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #8b7355;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #5a5a5a;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #8b7355;
+        }
+
+        /* Main Content */
+        main {
+            margin-top: 80px;
+            padding: 2rem 0;
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            margin: 2rem 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            color: #8b7355;
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            color: #6a6a6a;
+        }
+
+        /* Cards */
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+        }
+
+        .card h3 {
+            color: #8b7355;
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+        }
+
+        .card p {
+            margin-bottom: 1.5rem;
+            color: #666;
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #d4a574 0%, #8b7355 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            margin: 0.5rem 0.5rem 0.5rem 0;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(139, 115, 85, 0.3);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #b8a391 0%, #9e8a73 100%);
+        }
+
+        /* Forms */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #5a5a5a;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #8b7355;
+        }
+
+        .form-group textarea {
+            height: 150px;
+            resize: vertical;
+        }
+
+        /* Stories */
+        .story {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .story h3 {
+            color: #8b7355;
+            margin-bottom: 1rem;
+        }
+
+        .story-meta {
+            color: #888;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Lists */
+        .person-list,
+        .therapist-list,
+        .meeting-list {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .person-item,
+        .therapist-item,
+        .meeting-item {
+            padding: 1rem;
+            border-bottom: 1px solid #eee;
+            transition: background-color 0.3s ease;
+        }
+
+        .person-item:hover,
+        .therapist-item:hover,
+        .meeting-item:hover {
+            background-color: #f9f9f9;
+        }
+
+        .person-item:last-child,
+        .therapist-item:last-child,
+        .meeting-item:last-child {
+            border-bottom: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .cards {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Success/Error Messages */
+        .message {
+            padding: 1rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+        }
+
+        .message.success {
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+        }
+
+        .message.error {
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+            color: #721c24;
+        }
+    </style>
 </head>
-<body class="bg-cream bg-[#FFF8E7]">
-  <div id="root"></div>
-  <script type="text/babel">
-    const { useState, useEffect } = React;
-
-    // Sample data
-    const sampleStories = [
-      { id: 1, title: "Finding Peace", author: "Jane Doe", content: "My journey with pancreatic cancer has been challenging, but sharing here has brought me comfort..." },
-      { id: 2, title: "Moments of Joy", author: "John Smith", content: "Living with ALS has taught me to cherish every smile and sunrise..." },
-    ];
-
-    const sampleTherapists = [
-      { id: 1, name: "Dr. Emily Carter", specialty: "Pancreatic Cancer", location: "New York, NY" },
-      { id: 2, name: "Dr. Michael Lee", specialty: "ALS", location: "Chicago, IL" },
-    ];
-
-    const sampleMeetings = [
-      { id: 1, condition: "Pancreatic Cancer", date: "June 20, 2025", time: "6:00 PM EST", location: "Virtual" },
-      { id: 2, condition: "ALS", date: "June 22, 2025", time: "7:00 PM EST", location: "Virtual" },
-    ];
-
-    // Navigation Component
-    const Navbar = ({ setPage }) => {
-      const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-      return (
-        <nav className="nav-sticky fixed top-0 w-full shadow-md z-50 p-4" aria-label="Main navigation">
-          <div className="container mx-auto flex justify-between items-center">
-            <h1 className="text-3xl font-bold text-gray-800">Ashraya</h1>
-            <button className="md:hidden text-gray-700 focus:outline-none" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} aria-label="Toggle menu">
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
-            </button>
-            <ul className={`md:flex md:space-x-6 ${isMobileMenuOpen ? 'block' : 'hidden'} md:block absolute md:static top-16 left-0 w-full md:w-auto bg-blue-50 md:bg-transparent p-4 md:p-0`}>
-              {['Home', 'About', 'Connect With Others', 'Find a Therapist', 'Register as a Therapist', 'Tell Your Story', 'Stories', 'Register'].map(page => (
-                <li key={page} className="my-2 md:my-0">
-                  <button
-                    onClick={() => { setPage(page.toLowerCase().replace(/\s+/g, '-')); setIsMobileMenuOpen(false); }}
-                    className="text-gray-700 hover:text-blue-600 text-lg focus:outline-none focus:ring-2 focus:ring-blue-300 rounded"
-                    aria-current={page.toLowerCase().replace(/\s+/g, '-') === window.location.hash.slice(1) ? 'page' : undefined}
-                  >
-                    {page}
-                  </button>
-                </li>
-              ))}
+<body>
+    <header>
+        <nav class="container">
+            <a href="#" class="logo" onclick="showPage('home')">Ashraya</a>
+            <ul class="nav-links">
+                <li><a href="#" onclick="showPage('home')">Home</a></li>
+                <li><a href="#" onclick="showPage('about')">About</a></li>
+                <li><a href="#" onclick="showPage('connect')">Connect</a></li>
+                <li><a href="#" onclick="showPage('therapists')">Therapists</a></li>
+                <li><a href="#" onclick="showPage('stories')">Stories</a></li>
+                <li><a href="#" onclick="showPage('register')">Register</a></li>
             </ul>
-          </div>
         </nav>
-      );
-    };
+    </header>
 
-    // Footer Component
-    const Footer = () => (
-      <footer className="bg-gray-100 p-6 mt-12">
-        <div className="container mx-auto text-center text-gray-600 text-sm">
-          <p>© 2025 Ashraya. All rights reserved.</p>
-          <p className="mt-2">
-            <a href="#" className="hover:text-blue-600">Privacy Policy</a> | <a href="#" className="hover:text-blue-600">Terms of Service</a>
-          </p>
-        </div>
-      </footer>
-    );
-
-    // Homepage Component
-    const Home = ({ setPage }) => (
-      <div className="min-h-screen pt-20 fade-in">
-        <div className="container mx-auto py-16 px-4 text-center">
-          <h1 className="text-5xl font-bold text-gray-800 mb-6">Welcome to Ashraya</h1>
-          <p className="text-xl text-gray-600 mb-10 max-w-2xl mx-auto">
-            How can we improve survival and enhance the quality of life for individuals in palliative care by addressing their physical, emotional, and psychosocial needs, ensuring every person’s final chapter is lived with dignity, comfort, and compassion?
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
-              <h2 className="text-3xl font-bold text-gray-700 mb-4">Connect with Others</h2>
-              <p className="text-gray-600 mb-6">Find and connect with others who share your specific diagnosis, so you can build a supportive community.</p>
-              <button onClick={() => setPage('connect-with-others')} className="btn-primary px-6 py-3 rounded-lg text-lg">
-                Connect with Others
-              </button>
+    <main class="container">
+        <!-- HOME PAGE -->
+        <div id="home" class="page active">
+            <div class="hero">
+                <h1>Welcome to Ashraya</h1>
+                <p>How can we improve survival and enhance the quality of life for individuals in palliative care by addressing their physical, emotional, and psychosocial needs, ensuring every person's final chapter is lived with dignity, comfort, and compassion?</p>
             </div>
-            <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
-              <h2 className="text-3xl font-bold text-gray-700 mb-4">Connect to a Therapist</h2>
-              <p className="text-gray-600 mb-6">Access professional emotional support tailored to your unique needs.</p>
-              <div className="space-y-3">
-                <button onClick={() => setPage('find-a-therapist')} className="btn-primary px-6 py-3 rounded-lg text-lg w-full">
-                  Find a Therapist
-                </button>
-                <button onClick={() => setPage('register-as-a-therapist')} className="btn-primary px-6 py-3 rounded-lg text-lg w-full">
-                  Register as a Therapist
-                </button>
-              </div>
+
+            <div class="cards">
+                <div class="card">
+                    <h3>Connect with Others</h3>
+                    <p>Find and connect with others who share your specific diagnosis, so you can build a supportive community. Sometimes, understanding comes from those who walk a similar path.</p>
+                    <button class="btn" onclick="showPage('connect')">Connect with Others</button>
+                </div>
+
+                <div class="card">
+                    <h3>Connect to a Therapist</h3>
+                    <p>Access professional emotional support tailored to your unique needs. Our network of compassionate therapists understands the journey you're on.</p>
+                    <button class="btn" onclick="showPage('find-therapist')">Find a Therapist</button>
+                    <button class="btn btn-secondary" onclick="showPage('therapist-register')">Register as a Therapist</button>
+                </div>
+
+                <div class="card">
+                    <h3>Tell Your Story</h3>
+                    <p>Share your personal journey to inspire and support others. Your story matters, and it might be exactly what someone else needs to hear today.</p>
+                    <button class="btn" onclick="showPage('tell-story')">Tell Your Story</button>
+                </div>
             </div>
-            <div className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
-              <h2 className="text-3xl font-bold text-gray-700 mb-4">Tell Your Story</h2>
-              <p className="text-gray-600 mb-6">Share your personal journey to inspire and support others.</p>
-              <button onClick={() => setPage('tell-your-story')} className="btn-primary px-6 py-3 rounded-lg text-lg">
-                Tell Your Story
-              </button>
+        </div>
+
+        <!-- ABOUT PAGE -->
+        <div id="about" class="page">
+            <div class="hero">
+                <h1>About Ashraya</h1>
+                <p>A sanctuary of support, understanding, and hope for those navigating life's most challenging chapter.</p>
             </div>
-          </div>
+
+            <div class="card">
+                <h3>Our Mission</h3>
+                <p>At Ashraya, we believe that every person deserves to live their final chapter with dignity, comfort, and compassion. We are dedicated to creating a warm, supportive community where individuals in palliative care and their loved ones can find connection, professional support, and hope.</p>
+
+                <h3>Our Values</h3>
+                <p><strong>Dignity:</strong> Every person's journey is unique and deserves respect and honor.</p>
+                <p><strong>Compassion:</strong> We approach every interaction with kindness, understanding, and empathy.</p>
+                <p><strong>Community:</strong> Healing happens in connection with others who understand.</p>
+                <p><strong>Hope:</strong> Even in difficult times, there is beauty, meaning, and possibility.</p>
+                <p><strong>Holistic Support:</strong> We address not just physical needs, but emotional, social, and spiritual well-being.</p>
+
+                <h3>Our Story</h3>
+                <p>Ashraya was born from the recognition that palliative care extends far beyond medical treatment. It encompasses the full spectrum of human experience - the need for connection, understanding, professional guidance, and the opportunity to share one's story. We created this platform to ensure that no one walks this journey alone.</p>
+            </div>
         </div>
-      </div>
-    );
 
-    // About Page Component
-    const About = () => (
-      <div className="min-h-screen pt-20 fade-in">
-        <div className="container mx-auto py-16 px-4">
-          <h1 className="text-5xl font-bold text-gray-800 mb-6 text-center">About Ashraya</h1>
-          <p className="text-xl text-gray-600 mb-6 max-w-3xl mx-auto">
-            Ashraya is a sanctuary for individuals in palliative care and their loved ones, dedicated to fostering dignity, comfort, and compassion. Our mission is to enhance quality of life by addressing physical, emotional, and psychosocial needs through community, professional support, and shared stories.
-          </p>
-          <h2 className="text-3xl font-bold text-gray-700 mb-4">Our Values</h2>
-          <ul className="list-disc list-inside text-gray-600 text-lg mb-6 max-w-2xl">
-            <li>Compassion: We approach every interaction with empathy and care.</li>
-            <li>Dignity: We honor each person’s unique journey.</li>
-            <li>Community: We believe in the power of connection and support.</li>
-            <li>Holistic Care: We address the whole person—mind, body, and spirit.</li>
-          </ul>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Founded in 2025, Ashraya is committed to creating a safe, supportive space where everyone feels heard and valued. Join us in building a community of care and compassion.
-          </p>
+        <!-- CONNECT WITH OTHERS PAGE -->
+        <div id="connect" class="page">
+            <div class="hero">
+                <h1>Connect with Others</h1>
+                <p>Build a community with others who share your specific diagnosis. Finding people who truly understand your journey can provide immeasurable comfort and support.</p>
+            </div>
+
+            <div class="card">
+                <h3>Find Your Community</h3>
+                <p>Please enter your specific diagnosis or condition. The more specific you are, the better we can connect you with others who share similar experiences.</p>
+                
+                <form onsubmit="findCommunity(event)">
+                    <div class="form-group">
+                        <label for="condition">Your Specific Condition/Diagnosis:</label>
+                        <input type="text" id="condition" name="condition" placeholder="e.g., Stage IV Pancreatic Cancer, ALS, Advanced Heart Failure" required>
+                    </div>
+                    <button type="submit" class="btn">Find My Community</button>
+                </form>
+            </div>
+
+            <div id="community-results" style="display: none;">
+                <div class="person-list">
+                    <h3>People in Your Community</h3>
+                    <div id="people-list"></div>
+                </div>
+
+                <div class="meeting-list">
+                    <h3>Upcoming Support Meetings</h3>
+                    <div id="meetings-list"></div>
+                </div>
+            </div>
         </div>
-      </div>
-    );
 
-    // Connect With Others Page Component
-    const ConnectWithOthers = () => {
-      const [condition, setCondition] = useState('');
-      const [results, setResults] = useState([]);
-      const [meetings, setMeetings] = useState([]);
-      const [isLoading, setIsLoading] = useState(false);
-      const [error, setError] = useState('');
+        <!-- FIND A THERAPIST PAGE -->
+        <div id="find-therapist" class="page">
+            <div class="hero">
+                <h1>Find a Therapist</h1>
+                <p>Connect with professional therapists who specialize in supporting individuals with your specific condition and understand the unique challenges you face.</p>
+            </div>
 
-      const handleSubmit = (e) => {
-        e.preventDefault();
-        if (!condition.trim()) {
-          setError('Please enter a specific condition.');
-          return;
+            <div class="card">
+                <h3>Search for Specialized Support</h3>
+                <form onsubmit="findTherapists(event)">
+                    <div class="form-group">
+                        <label for="therapist-condition">Your Condition:</label>
+                        <input type="text" id="therapist-condition" name="condition" placeholder="e.g., Terminal Cancer, Progressive Neurological Disease" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="location">Your Location:</label>
+                        <input type="text" id="location" name="location" placeholder="City, State or ZIP Code" required>
+                    </div>
+                    <button type="submit" class="btn">Find Therapists</button>
+                </form>
+            </div>
+
+            <div id="therapist-results" style="display: none;">
+                <div class="therapist-list">
+                    <h3>Available Therapists</h3>
+                    <div id="therapist-list-content"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- THERAPIST REGISTRATION PAGE -->
+        <div id="therapist-register" class="page">
+            <div class="hero">
+                <h1>Register as a Therapist</h1>
+                <p>Join our network of compassionate professionals dedicated to supporting individuals in palliative care and their families.</p>
+            </div>
+
+            <div class="card">
+                <h3>Professional Registration</h3>
+                <form onsubmit="registerTherapist(event)">
+                    <div class="form-group">
+                        <label for="therapist-name">Full Name:</label>
+                        <input type="text" id="therapist-name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="therapist-email">Email Address:</label>
+                        <input type="email" id="therapist-email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="therapist-phone">Mobile Number (Private):</label>
+                        <input type="tel" id="therapist-phone" name="phone" required>
+                        <small>This will be kept private and used only for verification.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="therapist-credentials">Credentials & Qualifications:</label>
+                        <textarea id="therapist-credentials" name="credentials" placeholder="Please describe your professional qualifications, certifications, and experience in palliative care or related fields..." required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="credential-upload">Upload Proof of Credentials:</label>
+                        <input type="file" id="credential-upload" name="credentials-file" accept=".pdf,.jpg,.jpeg,.png" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="specializations">Areas of Specialization:</label>
+                        <textarea id="specializations" name="specializations" placeholder="e.g., Oncology, Neurological conditions, Grief counseling, Family support..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn">Submit Application</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- TELL YOUR STORY PAGE -->
+        <div id="tell-story" class="page">
+            <div class="hero">
+                <h1>Tell Your Story</h1>
+                <p>Your journey matters. By sharing your story, you offer hope, understanding, and connection to others who may be walking a similar path.</p>
+            </div>
+
+            <div class="card">
+                <h3>Share Your Journey</h3>
+                <form onsubmit="submitStory(event)">
+                    <div class="form-group">
+                        <label for="story-title">Story Title:</label>
+                        <input type="text" id="story-title" name="title" placeholder="Give your story a meaningful title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="story-author">Your Name (or Anonymous):</label>
+                        <input type="text" id="story-author" name="author" placeholder="How would you like to be known?" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="story-content">Your Story:</label>
+                        <textarea id="story-content" name="content" placeholder="Share your journey, insights, challenges, hopes, or anything you feel might help others..." required></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" required> I consent to sharing my story publicly on this platform to help and inspire others.
+                        </label>
+                    </div>
+                    <button type="submit" class="btn">Share My Story</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- STORIES PAGE -->
+        <div id="stories" class="page">
+            <div class="hero">
+                <h1>Stories of Hope & Courage</h1>
+                <p>Read the inspiring journeys of individuals who have walked this path. Each story is a testament to the human spirit and the power of sharing our experiences.</p>
+            </div>
+
+            <div id="stories-container">
+                <!-- Sample Stories -->
+                <div class="story">
+                    <h3>Finding Light in the Darkness</h3>
+                    <div class="story-meta">Shared by Sarah M. • 3 days ago</div>
+                    <p>When I was first diagnosed with stage IV lung cancer, I felt like my world had ended. But through this community and the connections I've made, I've learned that even in our darkest moments, there can be profound beauty and meaning. The friends I've made here understand in ways others can't...</p>
+                    <p>I've discovered that living with intention and focusing on what truly matters has brought me more peace than I ever thought possible. Every sunrise feels like a gift, and every laugh with my grandchildren is precious beyond measure.</p>
+                </div>
+
+                <div class="story">
+                    <h3>A Caregiver's Journey</h3>
+                    <div class="story-meta">Shared by Michael R. • 1 week ago</div>
+                    <p>Caring for my wife through her battle with ALS has been the most challenging and meaningful experience of my life. The support groups here have been our lifeline. Meeting other caregivers who understand the daily struggles, the small victories, and the overwhelming love that drives us forward...</p>
+                    <p>We've learned to celebrate the little things - a shared smile, a favorite meal, a sunset watched together. This community has taught us that love multiplies when it's shared.</p>
+                </div>
+
+                <div class="story">
+                    <h3>Gratitude in Every Breath</h3>
+                    <div class="story-meta">Shared by Elena K. • 2 weeks ago</div>
+                    <p>Living with advanced heart failure has taught me that every breath is precious. Through the support I've found here, I've learned to focus not on the time I might have left, but on making each moment count. The therapy sessions helped me process my fears and find peace...</p>
+                    <p>I've started a gratitude journal, and I'm amazed by how much beauty I notice now. The kindness of strangers, the warmth of sunlight, the sound of my daughter's laughter - these moments sustain me.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <p style="text-align: center; margin-bottom: 0;">
+                    <button class="btn" onclick="showPage('tell-story')">Share Your Story</button>
+                </p>
+            </div>
+        </div>
+
+        <!-- REGISTRATION PAGE -->
+        <div id="register" class="page">
+            <div class="hero">
+                <h1>Join Our Community</h1>
+                <p>Create your account to connect with others, access professional support, and share your journey. Your participation helps build a stronger, more supportive community for everyone.</p>
+            </div>
+
+            <div class="card">
+                <h3>Create Your Account</h3>
+                <form onsubmit="registerUser(event)">
+                    <div class="form-group">
+                        <label for="reg-name">Full Name:</label>
+                        <input type="text" id="reg-name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-email">Email Address:</label>
+                        <input type="email" id="reg-email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-password">Password:</label>
+                        <input type="password" id="reg-password" name="password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-role">I am:</label>
+                        <select id="reg-role" name="role" required>
+                            <option value="">Please select...</option>
+                            <option value="patient">An individual in palliative care</option>
+                            <option value="caregiver">A caregiver or family member</option>
+                            <option value="supporter">A friend or supporter</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" required> I agree to the Terms of Service and Privacy Policy
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox"> I would like to receive updates about support meetings and community events
+                        </label>
+                    </div>
+                    <button type="submit" class="btn">Create Account</button>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Sample data
+        const communityData = {
+            'pancreatic cancer': {
+                people: [
+                    { name: 'Jennifer L.', joined: '2 months ago', story: 'Stage IV survivor, focusing on quality time with family' },
+                    { name: 'Robert K.', joined: '3 weeks ago', story: 'Recently diagnosed, seeking connection and support' },
+                    { name: 'Mary S.', joined: '6 months ago', story: 'Caregiver for husband, sharing experiences and hope' }
+                ],
+                meetings: [
+                    { title: 'Pancreatic Cancer Support Circle', date: 'Every Tuesday 7:00 PM', location: 'Virtual Meeting', contact: 'facilitated by Dr. Andrews' },
+                    { title: 'Caregivers Coffee Hour', date: 'Saturdays 10:00 AM', location: 'Community Center', contact: 'In-person gathering' }
+                ]
+            },
+            'als': {
+                people: [
+                    { name: 'David M.', joined: '4 months ago', story: 'Diagnosed 2 years ago, advocate for ALS awareness' },
+                    { name: 'Lisa P.', joined: '1 month ago', story: 'Caregiver learning to navigate this journey' }
+                ],
+                meetings: [
+                    { title: 'ALS Support Network', date: 'First Thursday of each month 6:30 PM', location: 'Virtual', contact: 'Led by ALS Association' }
+                ]
+            },
+            'lung cancer': {
+                people: [
+                    { name: 'Sarah M.', joined: '5 months ago', story: 'Stage IV lung cancer, finding hope in community' },
+                    { name: 'James T.', joined: '2 months ago', story: 'Recently diagnosed, learning to cope with treatment' }
+                ],
+                meetings: [
+                    { title: 'Lung Cancer Warriors', date: 'Wednesdays 6:00 PM', location: 'Cancer Center Conference Room', contact: 'Led by certified counselor' }
+                ]
+            },
+            'heart failure': {
+                people: [
+                    { name: 'Elena K.', joined: '3 months ago', story: 'Advanced heart failure, practicing gratitude daily' },
+                    { name: 'William H.', joined: '1 month ago', story: 'Caregiver for spouse, seeking support and guidance' }
+                ],
+                meetings: [
+                    { title: 'Heart to Heart Support', date: 'Second Monday of each month 7:00 PM', location: 'Virtual Meeting', contact: 'Facilitated by cardiac nurse' }
+                ]
+            }
+        };
+
+        const therapistData = {
+            'cancer': [
+                { name: 'Dr. Sarah Chen', specialization: 'Oncology Psychology', location: 'New York, NY', experience: '15 years', contact: 'Available for telehealth' },
+                { name: 'Dr. Michael Rodriguez', specialization: 'Palliative Care Counseling', location: 'Los Angeles, CA', experience: '12 years', contact: 'In-person and virtual sessions' },
+                { name: 'Dr. Amanda Foster', specialization: 'Cancer Support Therapy', location: 'Chicago, IL', experience: '10 years', contact: 'Specializes in family counseling' }
+            ],
+            'neurological': [
+                { name: 'Dr. Emily Watson', specialization: 'Neurological Conditions Support', location: 'Chicago, IL', experience: '10 years', contact: 'Specializes in ALS and Parkinson\'s' },
+                { name: 'Dr. Robert Kim', specialization: 'Progressive Disease Counseling', location: 'Seattle, WA', experience: '8 years', contact: 'Virtual sessions available' }
+            ],
+            'heart': [
+                { name: 'Dr. Lisa Thompson', specialization: 'Cardiac Psychology', location: 'Boston, MA', experience: '12 years', contact: 'Heart failure and cardiac conditions' },
+                { name: 'Dr. James Wilson', specialization: 'Cardiovascular Counseling', location: 'Houston, TX', experience: '14 years', contact: 'In-person and telehealth' }
+            ]
+        };
+
+        // Navigation
+        function showPage(pageId) {
+            // Hide all pages
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.remove('active'));
+            
+            // Show selected page
+            document.getElementById(pageId).classList.add('active');
         }
-        setIsLoading(true);
-        setError('');
-        setTimeout(() => {
-          setResults([{ id: 1, name: "Jane Doe", condition }, { id: 2, name: "John Smith", condition }]);
-          setMeetings(sampleMeetings.filter(m => m.condition.toLowerCase() === condition.toLowerCase()));
-          setIsLoading(false);
-        }, 1000);
-      };
 
-      return (
-        <div className="min-h-screen pt-20 fade-in">
-          <div className="container mx-auto py-16 px-4">
-            <h1 className="text-5xl font-bold text-gray-800 mb-6 text-center">Connect with Others</h1>
-            <p className="text-xl text-gray-600 mb-8 text-center max-w-2xl mx-auto">
-              Build a community with others who share your specific diagnosis.
-            </p>
-            <form onSubmit={handleSubmit} className="max-w-lg mx-auto bg-white p-8 rounded-xl shadow-lg">
-              <label htmlFor="condition" className="block text-gray-700 text-lg mb-2" aria-required="true">Enter Your Specific Condition</label>
-              <input
-                type="text"
-                id="condition"
-                value={condition}
-                onChange={(e) => setCondition(e.target.value)}
-                className="w-full p-3 border border-gray-300 rounded-lg mb-4 text-lg focus:ring-2 focus:ring-blue-300 focus:outline-none"
-                placeholder="e.g., Pancreatic Cancer"
-                required
-                aria-describedby="condition-error"
-              />
-              {error && <p id="condition-error" className="text-red-500 text-sm mb-4">{error}</p>}
-              <button type="submit" className="btn-primary px-6 py-3 rounded-lg text-lg w-full" disabled={isLoading}>
-                {isLoading ? <div className="loading-spinner"></div> : 'Find Community'}
-              </button>
-            </form>
-            {results.length > 0 && (
-              <div className="mt-12">
-                <h2 className="text-3xl font-bold text-gray-700 mb-6">People with {condition}</h2>
-                <ul className="space-y-4">
-                  {results.map(person => (
-                    <li key={person.id} className="bg-white p-6 rounded-lg shadow-md text-lg">
-                      {person.name}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-            {meetings.length > 0 && (
-              <div className="mt-12">
-                <h2 className="text-3xl font-bold text-gray-700 mb-6">Upcoming Support Meetings</h2>
-                <ul className="space-y-4">
-                  {meetings.map(meeting => (
-                    <li key={meeting.id} className="bg-white p-6 rounded-lg shadow-md text-lg">
-                      {meeting.date} at {meeting.time} ({meeting.location})
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </div>
-        </div>
-      );
-    };
-
-    // Find a Therapist Page Component
-    const FindATherapist = () => {
-      const [disease, setDisease] = useState('');
-      const [location, setLocation] = useState('');
-      const [therapists, setTherapists] = useState([]);
-      const [isLoading, setIsLoading] = useState(false);
-      const [error, setError] = useState('');
-
-      const handleSubmit = (e) => {
-        e.preventDefault();
-        if (!disease.trim() || !location.trim()) {
-          setError('Please enter both a disease and location.');
-          return;
+        // Find Community
+        function findCommunity(event) {
+            event.preventDefault();
+            const condition = document.getElementById('condition').value.toLowerCase();
+            const resultsDiv = document.getElementById('community-results');
+            const peopleList = document.getElementById('people-list');
+            const meetingsList = document.getElementById('meetings-list');
+            
+            // Clear previous results
+            peopleList.innerHTML = '';
+            meetingsList.innerHTML = '';
+            
+            // Find matching community data
+            let foundData = null;
+            for (const key in communityData) {
+                if (condition.includes(key)) {
+                    foundData = communityData[key];
+                    break;
+                }
+            }
+            
+            if (foundData) {
+                // Display people
+                foundData.people.forEach(person => {
+                    const personDiv = document.createElement('div');
+                    personDiv.className = 'person-item';
+                    personDiv.innerHTML = `
+                        <strong>${person.name}</strong> - Joined ${person.joined}<br>
+                        <small>${person.story}</small>
+                    `;
+                    peopleList.appendChild(personDiv);
+                });
+                
+                // Display meetings
+                foundData.meetings.forEach(meeting => {
+                    const meetingDiv = document.createElement('div');
+                    meetingDiv.className = 'meeting-item';
+                    meetingDiv.innerHTML = `
+                        <strong>${meeting.title}</strong><br>
+                        <small>${meeting.date} • ${meeting.location} • ${meeting.contact}</small>
+                    `;
+                    meetingsList.appendChild(meetingDiv);
+                });
+            } else {
+                peopleList.innerHTML = '<div class="person-item">We\'re building this community! You could be among the first to connect others with your condition. Consider sharing your story to help others find you.</div>';
+                meetingsList.innerHTML = '<div class="meeting-item">No meetings scheduled yet for this specific condition. We\'ll notify you when support meetings become available.</div>';
+            }
+            
+            resultsDiv.style.display = 'block';
         }
-        setIsLoading(true);
-        setError('');
-        setTimeout(() => {
-          setTherapists(sampleTherapists.filter(t => t.specialty.toLowerCase() === disease.toLowerCase() && t.location.toLowerCase().includes(location.toLowerCase())));
-          setIsLoading(false);
-        }, 1000);
-      };
 
-      return (
-        <div className="min-h-screen pt-20 fade-in">
-          <div className="container mx-auto py-16 px-4">
-            <h1 className="text-5xl font-bold text-gray-800 mb-6 text-center">Find a Therapist</h1>
-            <p className="text-xl text-gray-600 mb-8 text-center max-w-2xl mx-auto">
-              Connect with a professional therapist specializing in your condition and location.
-            </p>
-            <form onSubmit={handleSubmit} className="max-w-lg mx-auto bg-white p-8 rounded-xl shadow-lg">
-              <label htmlFor="disease" className="block text-gray-700 text-lg mb-2" aria-required="true">Specific Disease</label>
-              <input
-                type="text"
-                id="disease"
-                value={disease}
-                onChange={(e) => setDisease(e.target.value)}
-                className="w-full p-3 border border-gray-300 rounded-lg mb-4 text-lg focus:ring-2 focus:ring-blue-300 focus:outline-none"
-                placeholder="e.g., Pancreatic Cancer"
-                required
-                aria-describedby="disease-error"
-              />
-              <label htmlFor="location" className="block text-gray-700 text-lg mb-2" aria-required="true">Location</label>
-              <input
-                type="text"
-                id="location"
-                value={location}
-                onChange={(e) => setLocation(e.target.value)}
-                className="w-full p-3 border border-gray-300 rounded-lg mb-4 text-lg focus:ring-2 focus:ring-blue-300 focus:outline-none"
-                placeholder="e.g., New York, NY"
-                required
-                aria-describedby="location-error"
-              />
-              {error && <p id="disease-error location-error" className="text-red-500 text-sm mb-4">{error}</p>}
-              <button type="submit" className="btn-primary px-6 py-3 rounded-lg text-lg w-full" disabled={isLoading}>
-                {isLoading ? <div className="loading-spinner"></div> : 'Find Therapists'}
-              </button>
-            </form>
-            {therapists.length > 0 && (
-              <div className="mt-12">
-                <h2 className="text-3xl font-bold text-gray-700 mb-6">Therapists</h2>
-                <ul className="space-y-4">
-                  {therapists.map(therapist => (
-                    <li key={therapist.id} className="bg-white p-6 rounded-lg shadow-md text-lg">
-                      {therapist.name} - {therapist.specialty} ({therapist.location})
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </div>
-        </div>
-      );
-    };
-
-    // Register as a Therapist Page Component
-    const RegisterAsTherapist = () => {
-      const [formData, setFormData] = useState({
-        name: '', mobile: '', email: '', credentials: '', proof: null,
-      });
-      const [isLoading, setIsLoading] = useState(false);
-      const [error, setError] = useState('');
-
-      const handleChange = (e) => {
-        const { name, value, files } = e.target;
-        setFormData({ ...formData, [name]: files ? files[0] : value });
-      };
-
-      const handleSubmit = (e) => {
-        e.preventDefault();
-        if (!formData.name || !formData.email || !formData.mobile || !formData.credentials || !formData.proof) {
-          setError('Please fill out all fields.');
-          return;
+        // Find Therapists
+        function findTherapists(event) {
+            event.preventDefault();
+            const condition = document.getElementById('therapist-condition').value.toLowerCase();
+            const location = document.getElementById('location').value;
+            const resultsDiv = document.getElementById('therapist-results');
+            const therapistList = document.getElementById('therapist-list-content');
+            
+            therapistList.innerHTML = '';
+            
+            // Find matching therapists
+            let foundTherapists = [];
+            for (const key in therapistData) {
+                if (condition.includes(key)) {
+                    foundTherapists = therapistData[key];
+                    break;
+                }
+            }
+            
+            if (foundTherapists.length > 0) {
+                foundTherapists.forEach(therapist => {
+                    const therapistDiv = document.createElement('div');
+                    therapistDiv.className = 'therapist-item';
+                    therapistDiv.innerHTML = `
+                        <strong>${therapist.name}</strong><br>
+                        <small>Specialization: ${therapist.specialization}</small><br>
+                        <small>Location: ${therapist.location}</small><br>
+                        <small>Experience: ${therapist.experience}</small><br>
+                        <small>${therapist.contact}</small>
+                    `;
+                    therapistList.appendChild(therapistDiv);
+                });
+            } else {
+                therapistList.innerHTML = '<div class="therapist-item">We\'re expanding our network of specialized therapists. Please check back soon, or contact us to help connect you with appropriate resources in your area.</div>';
+            }
+            
+            resultsDiv.style.display = 'block';
         }
-        setIsLoading(true);
-        setError('');
-        setTimeout(() => {
-          alert('Therapist registration submitted!');
-          setIsLoading(false);
-        }, 1000);
-      };
 
-      return (
-        <div className="min-h-screen pt-20 fade-in">
-          <div className="container mx-auto py-16 px-4">
-            <h1 className="text-5xl font-bold text-gray-800 mb-6 text-center">Register as a Therapist</h1>
-            <p className="text-xl text-gray-600 mb-8 text-center max-w-2xl mx-auto">
-              Join our platform to provide compassionate support to those in palliative care.
-            </p>
-            <form onSubmit={handleSubmit} className="max-w-lg mx-auto bg-white p-8 rounded-xl shadow-lg">
-              <label htmlFor="name" className="block text-gray-700 text-lg mb-2" aria-required="true">Full Name</label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                className="w-full p-3 border border-gray-300 rounded-lg mb-4 text-lg focus:ring-2 focus:ring-blue-300 focus:outline-none"
-                required
-                aria-describedby="name-error"
-              />
-              <label htmlFor="mobile" className="block text-gray-700 text-lg mb-2" aria-required="true">Mobile Number (Private)</label>
-              <input
-                type="tel"
-                id="mobile"
-                name="mobile"
-                value={formData.mobile}
-                onChange={handleChange}
-                className="w-full p-3 border border-gray-300 rounded-lg mb-4 text-lg focus:ring-2 focus:ring-blue-300 focus:outline-none"
-                required
-                aria-describedby="mobile-error"
-              />
-              <label htmlFor="email" className="block text-gray-700 text-lg mb-2" aria-required="true">Email</label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                className="w-full p-3 border border-gray-300 rounded-lg mb-4 text-lg focus:ring-2 focus:ring-blue-300 focus:outline-none"
-                required
-                aria-describedby="email-error"
-              />
-              <label htmlFor="credentials" className="block text-gray-700 text-lg mb-2" aria-required="true">Credentials/Qualifications</label>
-              <textarea
-                id="credentials"
-                name="credentials"
-                value={formData.credentials}
-                onChange={handleChange}
-                className="w-full p-3 border border-gray-300 rounded-lg mb-4 text-lg focus:ring-2 focus:ring-blue-300 focus:outline-none"
-                rows="4"
-                required
-                aria-describedby="credentials-error"
-              ></textarea>
-              <label htmlFor="proof" className="block text-gray-700 text-lg mb-2" aria-required="true">Upload Proof of Credentials</label>
-              <input
-                type="file"
-                id="proof"
-                name="proof"
-                onChange={handleChange}
-                className="w-full p-3 border border-gray-300 rounded-lg mb-4 text-lg"
-                required
-                aria-describedby="proof-error"
-              />
-              {error && <p id="name-error mobile-error email-error credentials-error proof-error" className="text-red-500 text-sm mb-4">{error}</p>}
-              <button type="submit" className="btn-primary px-6 py-3 rounded-lg text-lg w-full" disabled={isLoading}>
-                {isLoading ? <div className="loading-spinner"></div> : 'Submit Registration'}
-              </button>
-            </form>
-          </div>
-        </div>
-      );
-    };
-
-    // Tell Your Story Page Component
-    const TellYourStory = ({ setPage }) => {
-      const [formData, setFormData] = useState({ title: '', author: '', content: '' });
-      const [isLoading, setIsLoading] = useState(false);
-      const [error, setError] = useState('');
-
-      const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
-      };
-
-      const handleSubmit = (e) => {
-        e.preventDefault();
-        if (!formData.title || !formData.author || !formData.content) {
-          setError('Please fill out all fields.');
-          return;
+        // Register Therapist
+        function registerTherapist(event) {
+            event.preventDefault();
+            showMessage('Thank you for your interest in joining our network! Your application has been submitted and will be reviewed within 3-5 business days. We will contact you via email with next steps.', 'success');
+            event.target.reset();
         }
-        setIsLoading(true);
-        setError('');
-        setTimeout(() => {
-          alert('Story submitted for review!');
-          setPage('stories');
-          setIsLoading(false);
-        }, 1000);
-      };
 
-      return (
-        <div className="min-h-screen pt-20 fade-in">
-          <div className="container mx-auto py-16 px-4">
-            <h1 className="text-5xl font-bold text-gray-800 mb-6 text-center">Tell Your Story</h1>
-            <p className="text-xl text-gray-600 mb-8 text-center max-w-2xl mx-auto">
-              Share your personal journey to inspire and support others in our community.
-            </p>
-            <form onSubmit={handleSubmit} className="max-w-lg mx-auto bg-white p-8 rounded-xl shadow-lg">
-              <label htmlFor="title" className="block text-gray-700 text-lg mb-2" aria-required="true">Story Title</label>
-              <input
-                type="text"
-                id="title"
-                name="title"
-                value={formData.title}
-                onChange={handleChange}
-                className="w-full p-3 border border-gray-300 rounded-lg mb-4 text-lg focus:ring-2 focus:ring-blue-300 focus:outline-none"
-                required
-                aria-describedby="title-error"
-              />
-              <label htmlFor="author" className="block text-gray-700 text-lg mb-2" aria-required="true">Your Name</label>
-              <input
-                type="text"
-                id="author"
-                name="author"
-                value={formData.author}
-                onChange={handleChange}
-                className="w-full p-3 border border-gray-300 rounded-lg mb-4 text-lg focus:ring-2 focus:ring-blue-300 focus:outline-none"
-                required
-                aria-describedby="author-error"
-              />
-              <label htmlFor="content" className="block text-gray-700 text-lg mb-2" aria-required="true">Your Story</label>
-              <textarea
-                id="content"
-                name="content"
-                value={formData.content}
-                onChange={handleChange}
-                className="w-full p-3 border border-gray-300 rounded-lg mb-4 text-lg focus:ring-2 focus:ring-blue-300 focus:outline-none"
-                rows="6"
-                required
-                aria-describedby="content-error"
-              ></textarea>
-              {error && <p id="title-error author-error content-error" className="text-red-500 text-sm mb-4">{error}</p>}
-              <button type="submit" className="btn-primary px-6 py-3 rounded-lg text-lg w-full" disabled={isLoading}>
-                {isLoading ? <div className="loading-spinner"></div> : 'Submit Your Story'}
-              </button>
-            </form>
-          </div>
-        </div>
-      );
-    };
-
-    // Stories Page Component
-    const Stories = () => (
-      <div className="min-h-screen pt-20 fade-in">
-        <div className="container mx-auto py-16 px-4">
-          <h1 className="text-5xl font-bold text-gray-800 mb-6 text-center">Community Stories</h1>
-          <p className="text-xl text-gray-600 mb-8 text-center max-w-2xl mx-auto">
-            Read the heartfelt stories shared by our community members.
-          </p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {sampleStories.map(story => (
-              <div key={story.id} className="bg-white p-8 rounded-xl shadow-lg hover:shadow-xl transition-shadow">
-                <h2 className="text-3xl font-bold text-gray-700 mb-3">{story.title}</h2>
-                <p className="text-gray-600 mb-3 text-lg">By {story.author}</p>
-                <p className="text-gray-600 text-lg">{story.content.substring(0, 100)}...</p>
-                <button className="text-blue-500 hover:underline text-lg mt-3">Read More</button>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    );
-
-    // Registration Page Component
-    const Register = () => {
-      const [formData, setFormData] = useState({ name: '', email: '', password: '' });
-      const [isLoading, setIsLoading] = useState(false);
-      const [error, setError] = useState('');
-
-      const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({ ...formData, [name]: value });
-      };
-
-      const handleSubmit = (e) => {
-        e.preventDefault();
-        if (!formData.name || !formData.email || !formData.password) {
-          setError('Please fill out all fields.');
-          return;
+        // Submit Story
+        function submitStory(event) {
+            event.preventDefault();
+            const title = document.getElementById('story-title').value;
+            const author = document.getElementById('story-author').value;
+            const content = document.getElementById('story-content').value;
+            
+            // Add story to stories page
+            const storiesContainer = document.getElementById('stories-container');
+            const storyDiv = document.createElement('div');
+            storyDiv.className = 'story';
+            storyDiv.innerHTML = `
+                <h3>${title}</h3>
+                <div class="story-meta">Shared by ${author} • Just now</div>
+                <p>${content}</p>
+            `;
+            storiesContainer.insertBefore(storyDiv, storiesContainer.firstChild);
+            
+            showMessage('Thank you for sharing your story! It has been published and will inspire others in our community.', 'success');
+            event.target.reset();
+            
+            // Navigate to stories page to show the new story
+            showPage('stories');
         }
-        setIsLoading(true);
-        setError('');
-        setTimeout(() => {
-          alert('Registration successful!');
-          setIsLoading(false);
-        }, 1000);
-      };
 
-      return (
-        <div className="min-h-screen pt-20 fade-in">
-          <div className="container mx-auto py-16 px-4">
-            <h1 className="text-5xl font-bold text-gray-800 mb-6 text-center">Create an Account</h1>
-            <p className="text-xl text-gray-600 mb-8 text-center max-w-2xl mx-auto">
-              Join our community to connect, share, and find support.
-            </p>
-            <form onSubmit={handleSubmit} className="max-w-lg mx-auto bg-white p-8 rounded-xl shadow-lg">
-              <label htmlFor="name" className="block text-gray-700 text-lg mb-2" aria-required="true">Full Name</label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                className="w-full p-3 border border-gray-300 rounded-lg mb-4 text-lg focus:ring-2 focus:ring-blue-300 focus:outline-none"
-                required
-                aria-describedby="name-error"
-              />
-              <label htmlFor="email" className="block text-gray-700 text-lg mb-2" aria-required="true">Email</label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                className="w-full p-3 border border-gray-300 rounded-lg mb-4 text-lg focus:ring-2 focus:ring-blue-300 focus:outline-none"
-                required
-                aria-describedby="email-error"
-              />
-              <label htmlFor="password" className="block text-gray-700 text-lg mb-2" aria-required="true">Password</label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                className="w-full p-3 border border-gray-300 rounded-lg mb-4 text-lg focus:ring-2 focus:ring-blue-300 focus:outline-none"
-                required
-                aria-describedby="password-error"
-              />
-              {error && <p id="name-error email-error password-error" className="text-red-500 text-sm mb-4">{error}</p>}
-              <button type="submit" className="btn-primary px-6 py-3 rounded-lg text-lg w-full" disabled={isLoading}>
-                {isLoading ? <div className="loading-spinner"></div> : 'Register'}
-              </button>
-            </form>
-          </div>
-        </div>
-      );
-    };
-
-    // Main App Component
-    const App = () => {
-      const [page, setPage] = useState('home');
-
-      useEffect(() => {
-        document.title = `Ashraya: Palliative Care Community - ${page.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}`;
-      }, [page]);
-
-      const renderPage = () => {
-        switch (page) {
-          case 'home': return <Home setPage={setPage} />;
-          case 'about': return <About />;
-          case 'connect-with-others': return <ConnectWithOthers />;
-          case 'find-a-therapist': return <FindATherapist />;
-          case 'register-as-a-therapist': return <RegisterAsTherapist />;
-          case 'tell-your-story': return <TellYourStory setPage={setPage} />;
-          case 'stories': return <Stories />;
-          case 'register': return <Register />;
-          default: return <Home setPage={setPage} />;
+        // Register User
+        function registerUser(event) {
+            event.preventDefault();
+            showMessage('Welcome to Ashraya! Your account has been created successfully. You can now connect with others, find therapists, and share your story.', 'success');
+            event.target.reset();
         }
-      };
 
-      return (
-        <div>
-          <Navbar setPage={setPage} />
-          {renderPage()}
-          <Footer />
-        </div>
-      );
-    };
-
-    // Render the App
-    ReactDOM.render(<App />, document.getElementById('root'));
-  </script>
+        // Show Message
+        function showMessage(text, type) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${type}`;
+            messageDiv.textContent = text;
+            
+            // Insert message at the top of the current page
+            const currentPage = document.querySelector('.page.active');
+            currentPage.insertBefore(messageDiv, currentPage.firstChild);
+            
+            // Remove message after 5 seconds
+            setTimeout(() => {
+                messageDiv.remove();
+            }, 5000);
+        }
+    </script>
 </body>
 </html>
